@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Two Button Page</title>
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            display: flex;
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            width: 400px;
+            height: 300px;
+            font-size: 24px;
+            border: none;
+            cursor: pointer;
+            color: white;
+            margin: 0 20px;
+            border-radius: 10px;
+        }
+
+        .btn-red {
+            background-color: #ff4b4b;
+        }
+
+        .btn-green {
+            background-color: #4caf50;
+        }
+
+        .btn:active {
+            transform: scale(0.98);
+        }
+
+        .result {
+            font-size: 18px;
+            color: #333;
+            margin-top: 20px;
+            width: 400px;
+            word-wrap: break-word;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <button class="btn btn-green" onclick="sendRequest('/StartOrStop/Start')">开</button>
+        <button class="btn btn-red" onclick="sendRequest('/StartOrStop/Stop')">关</button>
+    </div>
+
+    <div class="result" id="result">
+        这里显示返回值
+    </div>
+
+
+    <script>
+        function sendRequest(apiEndpoint) {
+            // 获取当前页面的基础 URL
+            const baseUrl = window.location.origin;
+            const fullUrl = `${baseUrl}${apiEndpoint}`;
+
+            fetch(fullUrl, { method: 'GET' })
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('result').innerText = JSON.stringify(data, null, 2);
+                })
+                .catch(error => {
+                    document.getElementById('result').innerText = 'Error: ' + error;
+                });
+        }
+    </script>
+</body>
+</html>
